@@ -1,8 +1,8 @@
-# ImageJ Script Toolbox
+# ImageJ/Fiji Script Toolbox
 
 This is a collection of `Python`/`Jython` scripts to automate image processing.
 
-### `ZProject.py`
+# `ZProject.py`
 
 This script uses the [Bioformats](https://www.openmicroscopy.org/bio-formats/) plugin to read proprietary microscopy image formats into ImageJ.
 If the input image contains several channels, they will be split into several files and the channel name will be added to the filename.
