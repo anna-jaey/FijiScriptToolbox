@@ -72,7 +72,7 @@ else:
 logging.basicConfig(filename=os.path.join(outDir, "Log.txt"), filemode='w', level=logging.DEBUG,
                     format='%(asctime)s | %(levelname)s >> %(message)s', datefmt='%Y/%m/%d %H:%M:%S')
 
-logging.info('Start ToTiff script')
+logging.info('Start ZProject script')
 logging.info('Preferences')
 logging.info('    Input dir: %s', inDir)
 logging.info('    Output dir: %s', outDir)

@@ -21,6 +21,15 @@ Tick the box if the images need to be converted to RGB (e.g. for processing in A
 Select the file format to save the z-projections (both `.tiff` and `.jpg` can be selected).
 Tick the last option if you would like to save `.tiff` files of the z-stack images.
 
+## `split_channels.py`
+
+This script uses the [Bioformats](https://www.openmicroscopy.org/bio-formats/) plugin to read proprietary microscopy image formats into ImageJ.  
+Set the file extension (e.g. `.nd2`) in the first dialogue box.
+Also, indicated whether the images of the different channels should be saved in subfolders.
+The file name of the saved image will contain the channel name either way.
+Untick the voxel size box, if a `.txt` file with the voxel sizes isn't needed.
+If maximum intensity projections are needed, use `ZProject.py`.
+
 ## `histo_splitter.py`
 
 This script reads in an image of a complete histology slide, lets the user set ROIs and saves the cropped ROIs.
