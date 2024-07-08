@@ -2,6 +2,60 @@
 
 This is a collection of `Python`/`Jython` scripts to automate image processing.
 
+## Particle counting and area ratio quantification in multi-channel fluorescence images
+
+This set of scripts analyses marker-positive particles within segmented vessel areas in proximity to marker-positive spheroids.
+
+### Workflow Overview
+
+1. **`cropROI.py`**: Crops individual spheroids (ROI) from images containing multiple spheroids for further analysis.
+   - Determines cropping ROI by analysing particles above a specified size threshold to identify spheroids.
+   - Draws an ROI as a square scaled by a factor of the major axis of an ellipse fitted around the spheroid.
+   - Outputs include cropped images, ROI coordinates, and an image marking the detected spheroids.
+
+   ![cropROI.py](docs/screenshots/cropROI.png?raw=True)
+
+   Select paths for IO as well as the file extension of the image files to be processed.
+   Check the box if the image series is a time series.
+   Add the regex patterns for the script to recognize the sample name, timepoint, and channel.
+   Select the minimum size of a spheroid (µm² or pixel² depending on image metadata).
+   The script fits an ellipse around the spheroid. Scale factor is the factor by which the major axis is scaled to create the ROI.
+   Indicate which channel contains the spheroid.
+   Output sorting: the script can sort the cropped images according to sample, timepoint, channel, or not at all.
+
+2. **`SegmentVesselsWeka.py`**: Segments vessels using a trained Weka model, optimised for composite images of marker-expressing vessels (endothelial cells (EC)) and transmitted light (TM).
+   - Reads cropped files and creates composites of relevant channels.
+   - Outputs segmented vessel images for use in `AnalyseParticlesSpheroids.py`.
+
+   ![SegmentVesselsWeka.py](docs/screenshots/SegmentVesselsWeka.png?raw=True)
+
+   Select paths for IO as well as the file extension of the image files to be processed.
+   Select path for LUT, can be found under ./res/ClassifiedImageLUT.lut See also: [https://forum.image.sc/t/weka-segmentation-issue-with-python/38180](https://forum.image.sc/t/weka-segmentation-issue-with-python/38180).
+   Check the box if the image series is a time series.
+   Add the regex patterns for the script to recognise the sample name, timepoint, and channel.
+   Add which channels are relevant for the vessel segmentation.
+   If using images that are composites already, check 'Composite'.
+
+3. **`AnalyseParticlesSpheroids.py`**: Analyzes particles within the segmented vessel area, in proximity of spheroids.
+   - Recrops to areas near spheroids if necessary and measures spheroid size.
+   - Overlays vessel ROI from Weka-classified images onto spheroid channels to count particles and measure vessel area.
+   - Outputs CSV with measurements of spheroids, vessels, and overlay particles.
+
+   ![AnalyseParticlesSpheroids.py](docs/screenshots/AnalyseParticlesSpheroid.png?raw=True)
+
+   Select paths for IO as well as the file extension of the image files to be processed.
+   Add the regex patterns for the script to recognize the sample name, timepoint, and the name of the Weka-segmented image (from `SegmentVesselsWeka.py`).
+   Check the box if the image series is a time series and if recropping around the spheroid is required.
+   Select the minimum size of a spheroid (µm² or pixel² depending on image metadata).
+   As before, the scripts fit an ellipse around the spheroid. The scale factor is the factor by which the major axis is scaled to create the ROI.
+   Indicate which channel contains the spheroid.
+
+### Notes
+
+- Optimized for TIFF files with single images per channel and timepoint, adaptable to other formats.
+- Each script can be used independently with different inputs.
+- Adjustments needed for different inputs.
+
 ## `ZProject.py`
 
 This script uses the [Bioformats](https://www.openmicroscopy.org/bio-formats/) plugin to read proprietary microscopy image formats into ImageJ.
