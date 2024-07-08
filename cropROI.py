@@ -174,10 +174,13 @@ def show_gui():
     gd.addMessage("What is the file extension of the images?")
     gd.addStringField("File Extension:", ".tif")
 
+    gd.addMessage("Are the images from a time series?")
+    gd.addCheckbox("Time Series", True)
+
     gd.addMessage("Regex patterns for extract sample name, timepoints, and channels from the filename:")
-    gd.addStringField("Sample Name Pattern:", "^(\w{3,4})_")
-    gd.addStringField("Time Pattern:", r'-t(\d{4})')
-    gd.addStringField("Channel Pattern:", r'-C(\d{2})')
+    gd.addStringField("Sample name pattern:", "^(\w{3,4})_")
+    gd.addStringField("Time pattern:", r'-t(\d{4})')
+    gd.addStringField("Channel pattern:", r'-C(\d{2})')
 
     gd.addMessage("Minimum size for analyze particles to find a spheroid.")
     gd.addNumericField("Min Particle Size:", 2000, 0)
@@ -185,10 +188,7 @@ def show_gui():
     gd.addNumericField("Scale Factor:", 1.5, 1)
 
     gd.addMessage("Which channel contains the spheroids?")
-    gd.addStringField("Channel ROI:", "01")
-
-    gd.addMessage("Check if the experiments is a time series.")
-    gd.addCheckbox("Time Series", True)
+    gd.addStringField("Channel ROI:", "C01")
 
     gd.addMessage("Do you want the cropped images to be sorted?")
     gd.addChoice("Resort Output:", ["None", "Sample", "Timepoint (if time series)", "Channel"],
@@ -205,13 +205,13 @@ def show_gui():
     inDir = gd.getNextString()
     outDir = gd.getNextString()
     fileExt = gd.getNextString()
+    time_series = gd.getNextBoolean()
     sample_nme_pattern = gd.getNextString()
     time_pattern = gd.getNextString()
     channel_pattern = gd.getNextString()
     particle_size_min = int(gd.getNextNumber())
     scale_factor = gd.getNextNumber()
     channel_roi = gd.getNextString()
-    time_series = gd.getNextBoolean()
     resort = gd.getNextChoice()
 
     # Run the spheroid analysis with the obtained parameters
