@@ -1,3 +1,6 @@
+# https://forum.image.sc/t/weka-segmentation-issue-with-python/38180
+# Weka result needs LUT
+
 import os
 import re
 from ij import IJ, WindowManager
